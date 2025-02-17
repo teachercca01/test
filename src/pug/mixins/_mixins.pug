@@ -1,0 +1,54 @@
+mixin contentsBlock(id, addClass, title, subTitle)
+  section.l-section(class=addClass, id=id)
+    div.l-inner
+      hgroup
+        h2.c-title= title
+        p.c-title__sub= subTitle
+
+mixin radioFieldset(label, name, options)
+  fieldset.c-form__fieldset
+    legend.c-form__legend #{label}
+      span 必須
+    div
+      each option in options
+        label.c-form__label
+          input(type="radio" name=name value=option.value required="required")
+          | #{option.label}
+
+mixin textField(label, id, name, placeholder, type='text', required=true)
+  .c-form__fieldset
+    label.c-form__legend(id="#{id}-label") #{label}
+      span 必須
+    input.c-form__input(type=type id=id name=name required=required aria-labelledby="#{id}-label" placeholder=placeholder)
+
+mixin textareaField(label, id, name, placeholder, required=true)
+  .c-form__fieldset
+    label.c-form__legend(id="#{id}-label") #{label}
+    if required
+      span 必須
+    textarea.c-form__textarea(id=id name=name aria-labelledby="#{id}-label" placeholder=placeholder)
+
+mixin addressField(label, id1, id2, name1, name2, placeholder1, placeholder2)
+  fieldset.c-form__fieldset
+    legend.c-form__legend #{label}
+      span 必須
+    .c-form__address
+      span 〒
+      input.c-form__input(type="text" id=id1 name=name1 required="required" aria-labelledby="#{id1}-label" placeholder=placeholder1)
+    .c-form__fieldset
+      input.c-form__input(type="text" id=id2 name=name2 required="required" aria-labelledby="#{id1}-label" placeholder=placeholder2)
+
+mixin formFields()
+  +radioFieldset('お問い合わせ種別', 'category', [
+    { value: 'A', label: '資料請求' },
+    { value: 'B', label: 'ご相談' }
+  ])
+  +textField('お名前', 'name', 'name', '中央　太郎')
+  +textField('フリガナ', 'ruby', 'ruby', 'チュウオウ　タロウ')
+  +textField('電話番号', 'tel', 'tel', '000-0000-0000')
+  +addressField('住所', 'address1', 'address2', 'address1', 'address2', '000-0000', '〇市〇町〇番地')
+  +textField('メールアドレス', 'email', 'email', 'sample@gmail.com', 'email')
+  +textField('メールアドレス(確認用)', 'email-confirm', 'email-confirm', 'sample@gmail.com', 'email')
+  +textareaField('お問い合わせ内容', 'comment', 'comment', 'お問い合わせ内容を入力してください。')
+  .c-form__submit
+    input(type="submit" value="入力内容を確認する")
